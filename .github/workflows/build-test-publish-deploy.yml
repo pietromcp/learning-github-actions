@@ -21,6 +21,9 @@ jobs:
 
   deploy-staging:
     needs: publish
+    environment:
+      name: staging
+      url: http://www.google.com?q=staging
     if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/github-actions' || startsWith(github.ref, 'hotfix/') }}
     runs-on: ubuntu-latest
     steps:
@@ -28,6 +31,9 @@ jobs:
 
   deploy-production:
     needs: deploy-staging
+    environment:
+      name: production
+      url: http://www.google.com?q=production
     if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/github-actions' || startsWith(github.ref, 'hotfix/') }}
     runs-on: ubuntu-latest
     steps:
