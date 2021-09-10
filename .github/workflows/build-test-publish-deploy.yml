@@ -1,0 +1,34 @@
+name: Build, test, publish, and deploy
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Building artifacts"
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Testing artifacts"
+
+  publish:
+    needs: test
+    if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/github-actions' || startsWith(github.ref, 'hotfix/') }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Publishing something ${{ github.ref }} ${{ github.run_id }}"
+
+  deploy-staging:
+    needs: publish
+    if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/github-actions' || startsWith(github.ref, 'hotfix/') }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying into STAGING env ${{ github.ref }} ${{ github.run_id }}"
+
+  deploy-production:
+    needs: deploy-staging
+    if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/github-actions' || startsWith(github.ref, 'hotfix/') }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying into PRODUCTION env ${{ github.ref }} ${{ github.run_id }}"
