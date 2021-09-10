@@ -17,7 +17,7 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/github-actions' || startsWith(github.ref, 'hotfix/') }}
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Publishing something ${{ github.ref }} ${{ github.run_id }}"
+      - run: echo "Publishing something ${{ github.ref }} ${{ github.sha }} ${{ github.run_id }}"
 
   deploy-staging:
     needs: publish
@@ -27,7 +27,7 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/github-actions' || startsWith(github.ref, 'hotfix/') }}
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Deploying into STAGING env ${{ github.ref }} ${{ github.run_id }}"
+      - run: echo "Deploying into STAGING env ${{ github.ref }} ${{ github.sha }} ${{ github.run_id }}"
 
   deploy-production:
     needs: deploy-staging
@@ -37,4 +37,4 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/github-actions' || startsWith(github.ref, 'hotfix/') }}
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Deploying into PRODUCTION env ${{ github.ref }} ${{ github.run_id }}"
+      - run: echo "Deploying into PRODUCTION env ${{ github.ref }} ${{ github.sha }} ${{ github.run_id }}"
